@@ -1,21 +1,21 @@
 import React from 'react';
 import { FormControl, RadioGroup, FormLabel, FormControlLabel, Radio } from '@material-ui/core';
 
-function Q1({handleSubmit, SQuestions}) {
-console.log(SQuestions[0].question)
+function Q1({key, name, answers, handleSubmit}) {
+    // console.log(questions)
     return(
         <>
         <b>Question 1</b>
             <div className='container'>
             <FormControl component="fieldset">
-                <FormLabel component="legend">{SQuestions.question}
+                <FormLabel component="legend">{name}
                 </FormLabel>
-                {SQuestions.answers.map(answer => {
+                {answers.map(answer => {
                     return (
                         <RadioGroup 
-                        key={SQuestions.key}
+                        key={key}
                         defaultValue='false' 
-                        aria-label="question1" name={SQuestions.name} 
+                        aria-label="question1" name={name} 
                         value='question1'
                         onChange={(e)=> handleSubmit(e, null, e.target.value, e.target.name)}> 
                         <FormControlLabel
