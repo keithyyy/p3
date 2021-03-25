@@ -12,7 +12,12 @@ import Q3 from '../../components/QComponents/Q3';
 import Q4 from '../../components/QComponents/Q4';
 import Results from '../../components/Results';
 
+import Q1questions from '../../components/Questions/Q1.json';
+
 const DailyReflection = () => {
+console.log(Q1questions)
+  //store questions 
+  // const [sleepQuestions, setSleepQuestions] = useState(Q1questions)
 
   // State that checks what component to render
   const [moodVisible, setMoodVisible] = useState(true)
@@ -27,14 +32,16 @@ const DailyReflection = () => {
 
   // State that stores value from answer
   const [emotion, setEmotion] = useState('2');
-  const [q1, setQ1] = useState('')
+  const [q1_1, setQ1_1] = useState('')
+  const [q1_2, setQ1_2] = useState('')
   const [q2, setQ2] = useState('')
   const [q3, setQ3] = useState('')
   const [q4, setQ4] = useState('')
 
   // State that stores the points
   const [emotionPoints, setEmotionPoints] = useState(30)
-  const [q1Points, setQ1Points] = useState(0)
+  const [q1_1Points, setQ1_1Points] = useState(0)
+  const [q1_2Points, setQ1_2Points] = useState(0)
   const [q2Points, setQ2Points] = useState(0)
   const [q3Points, setQ3Points] = useState(0)
   const [q4Points, setQ4Points] = useState(0)
@@ -64,7 +71,7 @@ let total= 0;
 
 //Save complete response to the databases
 function storeResponses() {
-  total = emotionPoints + q1Points + q2Points + q3Points + q4Points
+  total = emotionPoints + q1_1Points + q1_2Points + q2Points + q3Points + q4Points
 
   setQuizComplete(false)
   setShowResults(true)
@@ -73,7 +80,9 @@ function storeResponses() {
   API.saveJournal({ 
     postedBy: userId,
     mood: emotion, moodPoints: emotionPoints,
-    q1: q1, q1Points: q1Points,
+    q1_1: q1_1, q1_1Points: q1_1Points,
+    q1_2: q1_2, q1_2Points: q1_2Points,
+    // q1_3: q1_3, q1_3Points: q1_3Points,
     q2: q2, q2Points: q2Points,
     q3: q3, q3Points: q3Points,
     q4: q4, q4Points: q4Points,
@@ -91,7 +100,7 @@ useEffect(() => {
 
 
   // Function to handle what happens when the submit button is clicked
-  function handleSubmit (e, getEmotion, getQ1, getQ1Points, getQ2, getQ2Points, getQ3, getQ3Points, getQ4, getQ4Points) {
+  function handleSubmit (e, getEmotion, getQ1_1, getQ1_1Points, getQ1_2, getQ1_2Points, getQ2, getQ2Points, getQ3, getQ3Points, getQ4, getQ4Points) {
     // Do not submit until checks have completed
     e.preventDefault()
 
@@ -104,11 +113,16 @@ useEffect(() => {
 
     } else if (q1Visible === true) {
 
-      setQ1(getQ1)
-      setQ1Points(parseInt(getQ1Points))
+      setQ1_1(getQ1_1)
+      setQ1_1Points(parseInt(getQ1_1Points))
 
-      setQ1Visible(false)
-      setQ2Visible(true)
+      setQ1_2(getQ1_2)
+      setQ1_2Points(parseInt(getQ1_2Points))
+
+      // setQ1Visible(false)
+      // setQ2Visible(true)
+
+
 
     } else if (q2Visible === true) {
 
@@ -138,7 +152,7 @@ useEffect(() => {
   };
 
   if (quizComplete) {
-    tallyScore(emotionPoints, q1Points, q2Points, q3Points, q4Points)
+    tallyScore(emotionPoints, q1_1Points, q2Points, q3Points, q4Points)
   }
 
   function tallyScore(slider, q1p, q2p, q3p, q4p) {
@@ -165,7 +179,21 @@ useEffect(() => {
             <Paper className={classes.paper}>
                 {/* dynamically render components */}
                 {moodVisible === true ? <MoodSlider handleSubmit={handleSubmit}/> :
-                q1Visible === true ? <Q1 handleSubmit={handleSubmit}/> : 
+                q1Visible === true ?
+                 Q1questions.forEach(question =>)  
+
+                <Q1 
+                SQuestions={Q1questions.map(item => ({
+                  key: item.id,
+                  question: item.question,
+                  answers: item.answers,
+                  // name: Q1questions.answers.test
+              }))}/> 
+              
+              
+              
+              
+              : 
                 q2Visible === true ? <Q2 handleSubmit={handleSubmit}/> : 
                 q3Visible === true ? <Q3 handleSubmit={handleSubmit}/> :
                 q4Visible === true ? <Q4 handleSubmit={handleSubmit}/> : 
