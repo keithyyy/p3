@@ -32,6 +32,7 @@ function Graphs() {
     return (
         <div className="graphContainer">
             {entries && <LineGraph 
+            // passing in the created_at dates by mapping the entries state and selecting the data and hour values.
             dates={entries.map(entry => ({date: entry.created_at, point: entry.moodPoints}))}/>
             }
             <DblAxisLine />
