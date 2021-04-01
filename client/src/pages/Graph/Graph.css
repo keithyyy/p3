@@ -25,7 +25,9 @@
     margin: auto;
     margin-top: 40px;
 }
-
+.makeStyles-root-1{
+    background: transparent !important;
+}
 
 /* MEDIA QUERIES */
 /* Extra small devices (Tested with Iphone X) */
